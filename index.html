@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Churn Analysis | Krishi Patel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0d0a0a;
+      color: #e8d8d8;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    /* NAVBAR */
+    nav {
+      background-color: #100808;
+      padding: 18px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2a1010;
+    }
+    nav .brand {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e05555;
+      text-decoration: none;
+    }
+
+    /* PAGE WRAPPER */
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 40px 80px;
+    }
+
+    /* BADGE */
+    .badge {
+      display: inline-block;
+      background-color: #1e0a0a;
+      color: #e05555;
+      border: 1px solid #3a1515;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    /* HEADINGS */
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      line-height: 1.15;
+    }
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 48px 0 12px 0;
+    }
+
+    /* PARAGRAPH */
+    p {
+      color: #8a6060;
+      margin: 0 0 16px 0;
+    }
+
+    /* DIVIDER */
+    hr {
+      border: none;
+      border-top: 1px solid #2a1010;
+      margin: 50px 0;
+    }
+
+    /* SECTION LABEL */
+    .label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #c0392b;
+      margin-bottom: 8px;
+    }
+
+    /* BUTTONS */
+    .btn-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 24px 0;
+    }
+    .btn {
+      display: inline-block;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-red {
+      background-color: #c0392b;
+      color: #ffffff;
+    }
+    .btn-red:hover { background-color: #a93226; }
+    .btn-outline {
+      background-color: transparent;
+      color: #e05555;
+      border: 1px solid #3a1515;
+    }
+    .btn-outline:hover { background-color: #1e0a0a; }
+
+    /* SCREENSHOT GRID 2x2 */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 24px 0 8px 0;
+    }
+    .screenshot-grid .img-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .screenshot-grid img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #2a1010;
+      display: block;
+    }
+
+    .caption {
+      font-size: 11px;
+      color: #5a3030;
+      text-align: center;
+    }
+
+    /* BULLET LIST */
+    ul {
+      padding-left: 0;
+      list-style: none;
+      margin: 12px 0 0 0;
+    }
+    ul li {
+      color: #8a6060;
+      padding: 8px 0;
+      border-bottom: 1px solid #1e0a0a;
+      padding-left: 18px;
+      position: relative;
+    }
+    ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #c0392b;
+      font-weight: 700;
+    }
+    ul li:last-child { border-bottom: none; }
+    ul li strong { color: #e8d8d8; }
+
+    /* FOOTER */
+    footer {
+      background-color: #100808;
+      border-top: 1px solid #2a1010;
+      padding: 28px 60px;
+      text-align: center;
+      font-size: 13px;
+      color: #5a3030;
+    }
+    footer strong { color: #8a6060; }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .wrapper { padding: 40px 20px 60px; }
+      h1 { font-size: 28px; }
+      .screenshot-grid { grid-template-columns: 1fr; }
+      footer { padding: 24px 20px; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="brand" href="#">Krishi Patel</a>
+</nav>
+
+<!-- PAGE CONTENT -->
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="badge">Data Analytics Project · Python · SQL · Power BI</div>
+  <h1>Customer Churn Analysis</h1>
+  <p>
+    Every month, your e-commerce platform is quietly bleeding customers.
+    Most businesses don't even know why.
+  </p>
+  <p>
+    1 in 6 customers is gone. Every single month. They don't send a complaint.
+    They don't ask for a refund. They just stop buying and silently move to a
+    competitor. This project was built to find exactly who is leaving, why they
+    are leaving, and what a business can do to stop it before it costs any more revenue.
+  </p>
+
+  <hr />
+
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+    <div class="label">Power BI Dashboard</div>
+    <h2>See the analysis</h2>
+    <p>
+      This is Power BI dashboard  built across two pages covering Churn Overview 
+      and Customer Behavior Insights. See exactly which customers are at risk, 
+      which segments are most vulnerable, and what is driving them away.
+    </p>
+
+    <div class="btn-row">
+      <!--
+        ✅ Replace each href with your actual links
+      -->
+      <a class="btn btn-red"
+         href="https://drive.google.com/file/d/1r00MdJFHPI6ekmxysRDfxCeryMe3oC4z/view?usp=sharing"
+         target="_blank">
+        View Presentation →
+      </a>
+      <a class="btn btn-red"
+         href="https://github.com/Krishi-Patel5/Customer-Churn-Analysis-webpage/blob/main/customer_churn_analysis.sql"
+         target="_blank">
+        View SQL Queries →
+      </a>
+      <a class="btn btn-red"
+         href="https://nbviewer.org/github/Krishi-Patel5/Customer-Churn-Analysis-webpage/blob/main/E-Commerce%20customer%20churn.ipynb"
+         target="_blank">
+        View Python Code →
+      </a>
+    </div>
+
+      <div class="screenshot-grid">
+        <div class="img-wrap">
+          <img src="assets/dashboard-1.png" alt="Churn Overview" />
+          <p class="caption">Churn Overview - Power BI Dashboard</p>
+        </div>
+        <div class="img-wrap">
+          <img src="assets/dashboard-2.png" alt="Customer Behavior Insights" />
+          <p class="caption">Customer Behavior Insights - Power BI Dashboard</p>
+        </div>
+        <div class="img-wrap">
+          <img src="assets/sql code.png" alt="SQL Queries" />
+          <p class="caption">SQL Queries - PostgreSQL</p>
+        </div>
+        <div class="img-wrap">
+          <img src="assets/python code.png" alt="Python Analysis" />
+          <p class="caption">Python - EDA & Data Cleaning</p>
+        </div>
+      </div>
+
+  </div>
+
+  <hr />
+
+  <!-- ABOUT -->
+  <div id="about">
+    <div class="label">About This Project</div>
+    <h2>What problem does this solve?</h2>
+    <p>
+      Acquiring a new customer costs 5 times more than keeping one. Yet most e-commerce
+      businesses pour their budget into ads and acquisition, while completely ignoring
+      the customers who are quietly walking out the back door.
+    </p>
+    <p>
+      Out of 5,593 customers analysed, 943 chose to leave. That is a 17% churn rate.
+      A 1 in 6 loss. And the most painful part? These customers averaged just 4 months
+      with the platform before giving up compared to 11 months for those who stayed.
+    </p>
+    <p>
+      The platform knew something was wrong. 53.55% of churned customers had already
+      raised a complaint. The warning signs were there. The data just needed someone
+      to read them.
+    </p>
+    <p>
+      This is not a customer service problem. It is an intelligence problem. And this
+      project was built to solve it from raw data all the way to business strategy.
+    </p>
+  </div>
+
+  <hr />
+
+  <!-- PROCESS -->
+  <div id="process">
+    <div class="label">How I Did It</div>
+    <h2>Here is my process</h2>
+    <ul>
+      <li><strong>Data collection and understanding</strong> - Raw CSV with 5,593 customer records and 19+ behavioral features including tenure, complaints, delivery time, payment mode, and satisfaction score</li>
+      <li><strong>Data cleaning with Python</strong> - Null values imputed, duplicates removed, category labels standardised, and outliers capped using Pandas, NumPy, Seaborn, and Matplotlib</li>
+      <li><strong>Exploratory data analysis</strong> - Univariate and bivariate analysis to uncover relationships between churn and tenure, complaints, delivery time, satisfaction score, and coupon usage</li>
+      <li><strong>SQL business queries with PostgreSQL</strong> - Cleaned data loaded into PostgreSQL. 15+ targeted business questions answered covering churn by city tier, gender, engagement level, and high-risk customer identification</li>
+      <li><strong>Visualization and insights with Power BI</strong> - Interactive dashboards built using DAX measures to surface churn trends, behavioral segmentation, and retention signals across all customer dimensions</li>
+    </ul>
+  </div>
+
+  <hr />
+
+  <!-- INSIGHTS -->
+  <div id="insights">
+    <div class="label">What I Found</div>
+    <h2>What the data revealed</h2>
+    <ul>
+      <li><strong>1 in 6 customers is leaving every month</strong> - 943 out of 5,593 customers churned. At a 17% churn rate, the business is losing a significant portion of its customer base before ever understanding why</li>
+      <li><strong>53.55% of churned customers had already complained</strong> - The platform had warning signs and did not act in time. An unresolved complaint is not just a bad experience, it is a countdown timer on that customer's account</li>
+      <li><strong>Churned customers lasted only 4 months vs 11 for retained</strong> - The gap in tenure is enormous. Customers who stayed were more than twice as loyal in time. Churn is happening far too early in the customer lifecycle</li>
+      <li><strong>56.2% of all churn comes from Tier 1 cities</strong> - The most valuable market is losing customers the fastest. These are high-spending customers in premium locations and they are the ones going to competitors</li>
+      <li><strong>Mobile Phone buyers show 27.29% churn rate</strong> - The highest-volume category is also the highest-risk. These buyers make the most orders but need better post-purchase support to stay beyond the first transaction</li>
+      <li><strong>Satisfaction score of just 3 out of 5 across churned customers</strong> - Mediocre. And in e-commerce, mediocre means churn. A satisfaction score this low is not a warning, it is a prediction</li>
+    </ul>
+  </div>
+
+  <hr />
+
+  <!-- TOOLS -->
+  <div>
+    <div class="label">Tools & Skills</div>
+    <h2>Built with</h2>
+    <ul>
+      <li><strong>Python</strong> - Data cleaning, EDA, outlier treatment, and visual exploration using Pandas, NumPy, Seaborn, and Matplotlib</li>
+      <li><strong>PostgreSQL</strong> - Data storage and 15+ targeted SQL business queries using Window Functions, CASE statements, CTEs, and NTILE segmentation</li>
+      <li><strong>Power BI</strong> - Two-page interactive dashboard with DAX measures covering churn overview and customer behavior insights</li>
+      <li><strong>Business Insight Reporting</strong> - Translated behavioral data into a 5-step retention strategy that a business can act on this quarter</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Krishi Patel</strong> · Customer Churn Analysis
+</footer>
+
+</body>
+</html>
